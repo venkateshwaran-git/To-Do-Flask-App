@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: todo-flask
+  labels:
+    app: todo-flask
+spec:
+  selector:
+    matchLabels:
+      app: todo-flask
+  replicas: 2
+  minReadySeconds: 15
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 2
+  template:
+    metadata:
+      labels:
+        app: todo-flask
+    spec:
+      containers:
+        - image: venkat271997/flask-todo
+          imagePullPolicy: Always
+          name: todo-flask
+          ports:
+          - containerPort: 5000
